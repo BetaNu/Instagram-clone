@@ -13,5 +13,27 @@ export const POSTS = [
                 comment: 'WOW! This is insane !'
             }
         ]
-    }
+    },
+    {
+        imageUrl: 'https://cdn.pixabay.com/photo/2012/11/02/13/02/car-63930__480.jpg',
+        user: USERS[2].user,
+        likes: 10500,
+        caption: 'My new car. I love it !',
+        profile_picture: USERS[2].image,
+        comments: [
+            {
+                user: USERS[4].user,
+                comment: 'Yeah ! I want to drive it.'
+            },
+            {
+                user: USERS[5].user,
+                comment: 'I would be too afraid to get in this car ...'
+            },
+            {
+                user: USERS[1].user,
+                comment: 'Do you think it is at my height ?'
+            },
+        ]
+    },
+
 ]

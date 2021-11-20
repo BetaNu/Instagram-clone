@@ -31,7 +31,7 @@ const Header = () => {
                     </View>
                     <Image
                         source={{
-                            uri: 'https://img.icons8.com/material-rounded/48/ffffff/filled-sent.png'
+                            uri: 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/ffffff/external-send-email-flatart-icons-outline-flatarticons.png'
                         }}
                         style={styles.icon}
                     />

@@ -111,7 +111,7 @@ const CommentsSection = ({post}) => (
     <View style={{marginTop: 5}} >
         {!!post.comments.length && (
             <Text style={{color: 'grey'}}>
-                View {post.comments.length > 1 ? 'all' : ''}
+                View {post.comments.length > 1 ? 'all' : ''} {''}
                 {post.comments.length} {post.comments.length > 1 ? 'comments' : 'comment'}
             </Text>
         )}
