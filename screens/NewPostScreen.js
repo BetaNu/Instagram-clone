@@ -4,10 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AddNewPost from '../components/newPost/AddNewPost'
 import FormikPostUploader from '../components/newPost/FormikPostUploader'
 
-const NewPostScreen = () => {
+const NewPostScreen = ({navigation}) => {
     return (
     <SafeAreaView style={styles.container}>
-        <AddNewPost />
+        <AddNewPost navigation={navigation} />
     </SafeAreaView>
     )
 }
