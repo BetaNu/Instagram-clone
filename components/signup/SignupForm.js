@@ -5,7 +5,7 @@ import { Formik, yupToFormErrors } from 'formik'
 import * as Yup from 'yup'
 import Validator from 'email-validator'
 
-const SignupForm = () => {
+const SignupForm = ({navigation}) => {
     const SignupFormSchema = Yup.object().shape({
         email: Yup.string().email().required('An email is required'),
         username: Yup.string().required().min(2, 'A username is required'),
@@ -71,7 +71,7 @@ const SignupForm = () => {
 
                         <View style={styles.signupContainer}>
                             <Text>Already have an account ? </Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.push('LoginScreen')}>
                                 <Text style={{color: '#6BB0F5'}}>Log In</Text>
                             </TouchableOpacity>
                         </View>
