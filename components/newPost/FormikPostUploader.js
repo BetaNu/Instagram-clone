@@ -4,6 +4,7 @@ import { View, Text, TextInput, Image, Button } from 'react-native'
 import * as Yup from 'yup'
 import {formik} from 'formik'
 import { Divider } from 'react-native-elements/dist/divider/Divider'
+import validUrl from 'valid-url'
 
 const uploadPostSchema = Yup.object().shape({
     imageUrl: Yup.string().url().required('A url is required'),
@@ -12,12 +13,16 @@ const uploadPostSchema = Yup.object().shape({
 
 const PLACEHOLDER_IMG = 'https://img.icons8.com/pastel-glyph/64/ffffff/upload--v1.png'
 
-const FormikPostUploader = () => {
+const FormikPostUploader = ({navigation}) => {
     const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG)
     return (
         <Formik
         initialValues={{caption: '', imageUrl: ''}}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => {
+            console.log(values)
+            console.log('Your post was submitted successfully')
+            navigation.goBack()
+        }}
         validationSchema={uploadPostSchema}
         validateOnMount={true}
         >
@@ -25,7 +30,7 @@ const FormikPostUploader = () => {
             {({handleBlur, handleChange, handleSubmit, values, errors, isValid}) => (
                 <>
                     <View style={{ margin: 20, justifyContent: 'space-between', flexDirection: 'row' }}>
-                        <Image source={{uri: thumbnailUrl ? thumbnailUrl : PLACEHOLDER_IMG}} 
+                        <Image source={{uri: validUrl.isUri(thumbnailUrl) ? thumbnailUrl : PLACEHOLDER_IMG}} 
                             style={{width: 100, height: 100}}
 
                         />
