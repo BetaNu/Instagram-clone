@@ -1,3 +1,4 @@
+import { getAuth, signOut } from '@firebase/auth'
 import React, { useState } from 'react'
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { Divider } from 'react-native-elements'
@@ -39,7 +40,9 @@ const BottomTabs = ({icons}) => {
     const [activeTab, setActiveTab] = useState('Home')
 
 const Icon = ({icon}) => (
-    <TouchableOpacity onPress={() => setActiveTab(icon.name)}>
+    <TouchableOpacity onPress={
+      () => {setActiveTab(icon.name);
+      activeTab == 'Profile' && icon.name === activeTab ? handleSignout() : null}}>
         <Image source={{uri: activeTab === icon.name ? icon.active : icon.inactive}} 
         style={[
             styles.icon, 
@@ -48,6 +51,15 @@ const Icon = ({icon}) => (
         ]} />
     </TouchableOpacity>
 )
+
+const handleSignout = async() => {
+  try {
+    await signOut(getAuth())
+    console.log('Signed Out successfully!')
+  } catch(error){
+    console.log(error.message);
+  }
+}
 
     return (
         <View style={styles.wrapper} >

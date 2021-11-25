@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 
+
 const Header = ({navigation}) => {
     return (
         <View style={styles.container}>
