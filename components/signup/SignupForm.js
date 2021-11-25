@@ -22,7 +22,8 @@ const SignupForm = ({navigation}) => {
             
             const userRef = collection(db, "users");
 
-            await setDoc(doc(userRef, authUser.user.uid), {
+            await setDoc(doc(userRef, authUser.user.email), {
+                owner_uid: authUser.user.uid,
                 username: username,
                 email: authUser.user.email,
                 profile_picture: await getRandomProfilePicture(),
