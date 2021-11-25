@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { Formik, yupToFormErrors } from 'formik'
 import * as Yup from 'yup'
 import Validator from 'email-validator'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import db from '../../firebase'
+import { collection, doc, setDoc } from 'firebase/firestore'
 
 const SignupForm = ({navigation}) => {
     const SignupFormSchema = Yup.object().shape({
@@ -12,11 +15,34 @@ const SignupForm = ({navigation}) => {
         password: Yup.string().required().min(8, 'Your password has to have at least 8 characters')
     })
 
+    const onSignup = async(email, password, username) => {
+        try {
+            const authUser = await createUserWithEmailAndPassword(getAuth(), email, password)
+            console.log('Firebase user created successfully', email, password)
+            
+            const userRef = collection(db, "users");
+
+            await setDoc(doc(userRef, authUser.user.uid), {
+                username: username,
+                email: authUser.user.email,
+                profile_picture: await getRandomProfilePicture(),
+            })
+        } catch(error){
+            Alert.alert(error.message);
+        }
+    }
+
+    const getRandomProfilePicture = async() => {
+        const response = await fetch('https://randomuser.me/api')
+        const data = await response.json()
+        return data.results[0].picture.large
+    }
+
     return (
         <View style={styles.wrapper}>
             <Formik
                 initialValues={{email: '', username: '', password: ''}}
-                onSubmit={values => {console.log(values)}}
+                onSubmit={values => onSignup(values.email, values.password, values.username)}
                 validationSchema={SignupFormSchema}
                 validateOnMount={true}
             >

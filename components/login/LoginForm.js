@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import Validator from 'email-validator'
+import firebase from '../../firebase'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import db from '../../firebase'
 
 const LoginForm = ({navigation}) => {
     const LoginFormSchema = Yup.object().shape({
@@ -11,11 +14,24 @@ const LoginForm = ({navigation}) => {
         password: Yup.string().required().min(8, 'Your password has to have at least 8 characters')
     })
 
+    const onLogin = async (email, password) => {
+        try {
+            await signInWithEmailAndPassword(getAuth(), email, password)
+            console.log('Firebase Login Successful', email, password)
+        } catch(error){
+            Alert.alert('Oups...', 
+            'It seems you have made a mistake or you don\'t have an account.' + 
+            '\n\n What would you do next ?', 
+            [{text: 'Try Again', onPress: () => console.log('OK'), style: 'cancel'},
+            {text: 'Sign Up', onPress: () => navigation.push('SignupScreen')}])
+        }
+    }
+
     return (
         <View style={styles.wrapper}>
             <Formik
                 initialValues={{email: '', password: ''}}
-                onSubmit={values => {console.log(values)}}
+                onSubmit={values => {onLogin(values.email, values.password)}}
                 validationSchema={LoginFormSchema}
                 validateOnMount={true}
             >
