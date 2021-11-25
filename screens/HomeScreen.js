@@ -1,4 +1,4 @@
-import { collectionGroup, onSnapshot } from '@firebase/firestore'
+import { collectionGroup, onSnapshot, orderBy, query } from '@firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, SafeAreaView, Platform, StatusBar, ScrollView, FlatList } from 'react-native'
 import BottomTabs, { bottomTabIcons } from '../components/home/BottomTabs'
@@ -12,9 +12,11 @@ const HomeScreen = ({navigation}) => {
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
-        onSnapshot(collectionGroup(db, 'posts'), (snapshot) => {
-            setPosts(snapshot.docs.map(doc => doc.data()))
-        })
+        onSnapshot(collectionGroup(db, 'posts'), 
+            (snapshot) => {
+                setPosts(snapshot.docs.map(post => (
+                    {id: post.id, ... post.data()})))
+            })
     }, [])
 
     return (
